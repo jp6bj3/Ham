@@ -43,7 +43,7 @@ const loadEnvironmentConfig = async () => {
       
       for (let i = 0; i < maxRetries; i++) {
         try {
-          const response = await fetch('http://design.shummi.com.tw/api/public/env.php', {
+          const response = await fetch('https://cheese-4t58.onrender.com/api/public/env.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

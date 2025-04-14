@@ -136,7 +136,7 @@ function App() {
     };
 
     // 只在特定域名下應用
-    if (window.location.hostname.includes('design.shummi.com.tw')) {
+    if (window.location.hostname.includes('jp6bj3.github.io')) {
       disableDevTools();
     }
 
