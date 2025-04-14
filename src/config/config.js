@@ -8,7 +8,7 @@ const ENV = {
       DEBUG: true
     },
     production: {
-      API_BASE_URL: 'https://cheese-4t58.onrender.com/api',
+      API_BASE_URL: 'https://cheese-4t58.onrender.com',
       FILE_BASE_URL: 'https://jp6bj3.github.io/Ham',
       EMAIL_DOMAIN: 'shummi.com.tw',
       DEBUG: false
