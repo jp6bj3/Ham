@@ -1,0 +1,105 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 添加到您的全局CSS文件中 */
+
+/* 確保 Slick 容器寬度正確 */
+.slick-slider {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* 修復滑塊寬度 */
+.slick-slide {
+  box-sizing: border-box !important;
+  width: auto !important;
+  padding: 0 4px !important;
+}
+
+/* 確保軌道顯示正確 */
+.slick-track {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: flex !important;
+  width: auto !important;
+  transform: none !important;
+}
+
+/* 修復列表的溢出問題 */
+.slick-list {
+  width: 100% !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* 自定義箭頭樣式 */
+.custom-slick-prev,
+.custom-slick-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}
+
+.custom-slick-prev {
+  left: 0px;
+}
+
+.custom-slick-next {
+  right: 0px;
+}
+
+/* 為自定義箭頭添加懸停效果 */
+.custom-slick-prev:hover,
+.custom-slick-next:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
