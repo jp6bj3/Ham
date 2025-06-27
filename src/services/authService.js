@@ -75,7 +75,10 @@ class AuthService {
       return this.handleLocalRequest(endpoint, options);
     }
 
-    const url = `${config.API_BASE_URL}/public/${endpoint}`;
+    // 修正 URL 處理邏輯
+    const baseUrl = 'https://cheese-4t58.onrender.com';
+    const url = endpoint.startsWith('http') ? endpoint : `${baseUrl}${endpoint}`;
+    
     try {
       const response = await fetch(url, {
         ...options,
@@ -92,26 +95,29 @@ class AuthService {
 
       return response.json();
     } catch (error) {
-      logger.error(`API request failed (${endpoint}):`, error);
+      logger.error(`API request failed (${url}):`, error);
       throw new Error(this.getErrorMessage(error));
     }
   }
 
  // 本地開發的請求處理
  async handleLocalRequest(endpoint, options) {
-  logger.debug('Local request:', endpoint, options); // 添加日誌
+  logger.debug('Local request:', endpoint, options);
   
-  switch(endpoint) {
-    case 'https://cheese-4t58.onrender.com/get-whitelist.php':
+  // 支持相對路徑和完整 URL
+  const normalizedEndpoint = endpoint.replace('https://cheese-4t58.onrender.com', '');
+  
+  switch(normalizedEndpoint) {
+    case '/get-whitelist.php':
       return this.getLocalWhitelist();
-    case 'https://cheese-4t58.onrender.com/save-whitelist.php':
+    case '/save-whitelist.php':
       const whitelistData = typeof options.body === 'string' 
         ? JSON.parse(options.body) 
         : options.body;
       return this.saveLocalWhitelist(whitelistData);
-    case 'https://cheese-4t58.onrender.com/get-users.php':
+    case '/get-users.php':
       return this.getLocalUsers();
-    case 'https://cheese-4t58.onrender.com/save-users.php':
+    case '/save-users.php':
       const userData = typeof options.body === 'string' 
         ? JSON.parse(options.body) 
         : options.body;
@@ -170,10 +176,10 @@ saveLocalWhitelist(data) {
     return data ? JSON.parse(data) : { users: [] };
   }
 
-  // 使用者數據相關方法
+  // 使用者數據相關方法 - 修改為使用相對路徑
   async loadUsers() {
     try {
-      const data = await this.makeApiRequest('https://cheese-4t58.onrender.com/get-users.php');
+      const data = await this.makeApiRequest('/get-users.php');
       this.users = data;
       logger.debug('Users loaded:', this.users);
     } catch (error) {
@@ -184,7 +190,7 @@ saveLocalWhitelist(data) {
 
   async saveUsers() {
     try {
-      await this.makeApiRequest('https://cheese-4t58.onrender.com/save-users.php', {
+      await this.makeApiRequest('/save-users.php', {
         method: 'POST',
         body: JSON.stringify(this.users)
       });
@@ -195,10 +201,10 @@ saveLocalWhitelist(data) {
     }
   }
 
-  // 白名單相關方法
+  // 白名單相關方法 - 修改為使用相對路徑
   async loadWhitelist() {
     try {
-      const data = await this.makeApiRequest('https://cheese-4t58.onrender.com/get-whitelist.php');
+      const data = await this.makeApiRequest('/get-whitelist.php');
       
       // 確保所有白名單項目轉為小寫
       this.whitelist = data.whitelist.map(item => item.toLowerCase());
@@ -215,7 +221,7 @@ saveLocalWhitelist(data) {
       // 確保所有白名單項目轉為小寫
       const whitelistToSave = this.whitelist.map(item => item.toLowerCase());
       
-      const result = await this.makeApiRequest('https://cheese-4t58.onrender.com/save-whitelist.php', {
+      const result = await this.makeApiRequest('/save-whitelist.php', {
         method: 'POST',
         body: JSON.stringify({ whitelist: whitelistToSave })
       });
