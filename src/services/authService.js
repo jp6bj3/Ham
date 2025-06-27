@@ -102,16 +102,16 @@ class AuthService {
   logger.debug('Local request:', endpoint, options); // 添加日誌
   
   switch(endpoint) {
-    case 'https://cheese-4t58.onrender.com/data/get-whitelist.php':
+    case 'https://cheese-4t58.onrender.com/get-whitelist.php':
       return this.getLocalWhitelist();
-    case 'https://cheese-4t58.onrender.com/data/save-whitelist.php':
+    case 'https://cheese-4t58.onrender.com/save-whitelist.php':
       const whitelistData = typeof options.body === 'string' 
         ? JSON.parse(options.body) 
         : options.body;
       return this.saveLocalWhitelist(whitelistData);
-    case 'https://cheese-4t58.onrender.com/data/get-users.php':
+    case 'https://cheese-4t58.onrender.com/get-users.php':
       return this.getLocalUsers();
-    case 'https://cheese-4t58.onrender.com/data/save-users.php':
+    case 'https://cheese-4t58.onrender.com/save-users.php':
       const userData = typeof options.body === 'string' 
         ? JSON.parse(options.body) 
         : options.body;
@@ -173,7 +173,7 @@ saveLocalWhitelist(data) {
   // 使用者數據相關方法
   async loadUsers() {
     try {
-      const data = await this.makeApiRequest('https://cheese-4t58.onrender.com/data/get-users.php');
+      const data = await this.makeApiRequest('https://cheese-4t58.onrender.com/get-users.php');
       this.users = data;
       logger.debug('Users loaded:', this.users);
     } catch (error) {
@@ -184,7 +184,7 @@ saveLocalWhitelist(data) {
 
   async saveUsers() {
     try {
-      await this.makeApiRequest('https://cheese-4t58.onrender.com/data/save-users.php', {
+      await this.makeApiRequest('https://cheese-4t58.onrender.com/save-users.php', {
         method: 'POST',
         body: JSON.stringify(this.users)
       });
@@ -198,7 +198,7 @@ saveLocalWhitelist(data) {
   // 白名單相關方法
   async loadWhitelist() {
     try {
-      const data = await this.makeApiRequest('https://cheese-4t58.onrender.com/data/get-whitelist.php');
+      const data = await this.makeApiRequest('https://cheese-4t58.onrender.com/get-whitelist.php');
       
       // 確保所有白名單項目轉為小寫
       this.whitelist = data.whitelist.map(item => item.toLowerCase());
@@ -215,7 +215,7 @@ saveLocalWhitelist(data) {
       // 確保所有白名單項目轉為小寫
       const whitelistToSave = this.whitelist.map(item => item.toLowerCase());
       
-      const result = await this.makeApiRequest('https://cheese-4t58.onrender.com/data/save-whitelist.php', {
+      const result = await this.makeApiRequest('https://cheese-4t58.onrender.com/save-whitelist.php', {
         method: 'POST',
         body: JSON.stringify({ whitelist: whitelistToSave })
       });
